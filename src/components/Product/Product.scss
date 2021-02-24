@@ -1,0 +1,11 @@
+.Product {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  max-width: 600px;
+
+  span {
+    pad: 10px;
+    width: 100px;
+  }
+}
