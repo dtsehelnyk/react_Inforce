@@ -1,11 +1,30 @@
 .Product {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
   max-width: 600px;
 
-  span {
-    pad: 10px;
-    width: 100px;
+  &__name {
+    padding: 0 10px;
+    width: 160px;
+    word-wrap: break-word;
+  }
+
+  &__priority {
+    padding: 0 10px;
+    width: 50px;
+  }
+
+  &__checkbox {
+    margin: 5px 20px 5px 5px;
+  }
+
+  &__button {
+    margin-left: 15px;
+    padding: 5px 10px;
+    background-color: #44f;
+    color: #fff;
+    border-radius: 3px;
   }
 }

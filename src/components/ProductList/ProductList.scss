@@ -1,0 +1,23 @@
+.ProductList {
+
+  &__form {
+    display: flex;
+    align-items: center;
+  }
+
+  &__checkbox {
+    margin: 5px;
+  }
+
+  &__input {
+    margin: 0 5px;
+  }
+
+  &__button {
+    margin-left: 15px;
+    padding: 5px 10px;
+    background-color: #44f;
+    color: #fff;
+    border-radius: 3px;
+  }
+}

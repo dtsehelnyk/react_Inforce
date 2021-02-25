@@ -1,10 +1,9 @@
 import './App.scss';
 import './styles/reset.scss';
 
-import { ProductList } from './components/ProductList/ProductList.tsx';
+import { ProductList } from './components/ProductList/ProductList';
 
-function App() {
-
+const App:React.FC = () => {
 
   return (
     <div className="App">

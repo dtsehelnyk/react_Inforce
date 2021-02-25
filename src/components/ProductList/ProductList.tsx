@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import './ProductList.scss';
+import ProductType from '../../types/types';
 
-import { Product } from '../Product/Product.tsx';
+import { MemoizedProduct } from '../Product/Product';
 
-export const ProductList = () => {
-  const [ products, setProducts ] = useState([]);
+export const ProductList:React.FC = () => {
+  const [ products, setProducts ] = useState<Array<ProductType>>([]);
 
   const [ name, setName ] = useState('');
   const [ priority, setPriority ] = useState('1');
@@ -18,45 +20,56 @@ export const ProductList = () => {
     localStorage.setItem('products', JSON.stringify(products));
   }, [products]);
 
-  const addProduct = (event):void => {
-    event.preventDefault();
+  const addProduct = useCallback(
+    (event: React.FormEvent<HTMLFormElement>): void => {
+      event.preventDefault();
 
-    setProducts([
-      ...products,
-      {
-        id: new Date(),
-        date: new Date().toLocaleTimeString(),
-        name,
-        priority,
-        presence: presence,
-      }
-    ]);
+      setProducts([
+        ...products,
+        {
+          id: new Date(),
+          date: new Date().toLocaleTimeString(),
+          name,
+          priority,
+          presence: presence,
+        }
+      ]);
+  
+      setName('');
+      setPriority('1');
+      setPresence(false);
+    }, [products]
+  );
 
-    setName('');
-    setPriority('1');
-    setPresence(false);
-  }
+  const handlePresence = useCallback(
+    (id: Date): void => {
+      setProducts(products.map(product => {
+        if (product.id === id) {
+          product.presence = !product.presence;
+        }
 
-  const handlePresence = (id:number):void => {
-    setProducts(products.map(product => {
-      if (product.id === id) {
-        product.presence = !product.presence;
-      }
+        return product;
+      }));
+    }, [presence]
+  );
 
-      return product;
-    }));
-  }
-
-  const removeProduct = (id:number):void => {
-    setProducts(products.filter(product => {
-      return product.id !== id;
-    }));
-  }
+  const removeProduct = useCallback(
+    (id: Date): void => {
+      setProducts(products.filter(product => {
+        return product.id !== id;
+      }));
+    }, [products]
+  );
 
   return (
-    <div>
-      <form action="" onSubmit={addProduct}>
+    <div className="ProductList">
+      <form
+        action=""
+        className="ProductList__form"
+        onSubmit={addProduct}
+      >
         <input
+          className="ProductList__checkbox"
           name="presence"
           type="checkbox"
           checked={presence}
@@ -64,6 +77,7 @@ export const ProductList = () => {
         />
 
         <input
+          className="ProductList__input"
           name="name"
           type="text"
           required
@@ -73,6 +87,7 @@ export const ProductList = () => {
         />
 
         <input
+          className="ProductList__input"
           name="priority"
           type="number"
           required
@@ -83,14 +98,16 @@ export const ProductList = () => {
           onChange={event => setPriority(event.target.value)}
         />
 
-        <button>Add product</button>
+        <button className="ProductList__button">
+          Add product
+        </button>
       </form>
 
-      <ul className="ProductList">
+      <ul className="ProductList__list">
         {products.length > 0
           && products.map(product => (
             <li key={product.date}>
-              <Product
+              <MemoizedProduct
                 {...product}
                 handlePresence={handlePresence}
                 removeProduct={removeProduct}

@@ -1,28 +1,24 @@
 import React from 'react';
 import './Product.scss';
 
-type ProductType = {
-    id: number;
-    date: number,
-    name: string;
-    priority: string,
-    presence: boolean,
-  }
+import ProductType from '../../types/types';
 
-export const Product = ({
-    id,
-    date,
-    name,
-    priority,
-    presence,
+type ProductTypeWithMethods = ProductType & {handlePresence: any, removeProduct:any}
 
-    handlePresence,
-    removeProduct
-  }: ProductType) => {
+const Product = ({
+  id,
+  date,
+  name,
+  priority,
+  presence,
+  handlePresence,
+  removeProduct
+}: ProductTypeWithMethods) => {
 
   return (
     <div className="Product">
       <input
+        className="Product__checkbox"
         type="checkbox"
         checked={presence}
         onChange={() => handlePresence(id)}
@@ -31,6 +27,7 @@ export const Product = ({
       <span className="Product__priority">{priority} </span>
       <span>{date}</span>
       <button
+        className="Product__button"
         onClick={() => removeProduct(id)}
         type="button"
       >
@@ -39,3 +36,5 @@ export const Product = ({
     </div>
   )
 }
+
+export const MemoizedProduct = React.memo(Product);
