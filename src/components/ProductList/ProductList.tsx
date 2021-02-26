@@ -20,46 +20,40 @@ export const ProductList:React.FC = () => {
     localStorage.setItem('products', JSON.stringify(products));
   }, [products]);
 
-  const addProduct = useCallback(
-    (event: React.FormEvent<HTMLFormElement>): void => {
-      event.preventDefault();
+  const addProduct = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
 
-      setProducts([
-        ...products,
-        {
-          id: new Date(),
-          date: new Date().toLocaleTimeString(),
-          name,
-          priority,
-          presence: presence,
-        }
-      ]);
-  
-      setName('');
-      setPriority('1');
-      setPresence(false);
-    }, [products]
-  );
+    setProducts([
+      ...products,
+      {
+        id: new Date(),
+        date: new Date().toLocaleTimeString(),
+        name: name,
+        presence,
+        priority,
+      }
+    ]);
 
-  const handlePresence = useCallback(
-    (id: Date): void => {
-      setProducts(products.map(product => {
-        if (product.id === id) {
-          product.presence = !product.presence;
-        }
+    setName('');
+    setPriority('1');
+    setPresence(false);
+  }
 
-        return product;
-      }));
-    }, [presence]
-  );
+  const handlePresence = (id: Date): void => {
+    setProducts(products.map(product => {
+      if (product.id === id) {
+        product.presence = !product.presence;
+      }
 
-  const removeProduct = useCallback(
-    (id: Date): void => {
-      setProducts(products.filter(product => {
-        return product.id !== id;
-      }));
-    }, [products]
-  );
+      return product;
+    }));
+  }
+
+  const removeProduct = (id: Date): void => {
+    setProducts(products.filter(product => {
+      return product.id !== id;
+    }));
+  }
 
   return (
     <div className="ProductList">

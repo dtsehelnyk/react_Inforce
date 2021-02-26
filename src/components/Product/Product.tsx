@@ -3,7 +3,10 @@ import './Product.scss';
 
 import ProductType from '../../types/types';
 
-type ProductTypeWithMethods = ProductType & {handlePresence: any, removeProduct:any}
+interface ProductTypeWithMethods extends ProductType {
+  handlePresence: any
+  removeProduct: any
+}
 
 const Product = ({
   id,
