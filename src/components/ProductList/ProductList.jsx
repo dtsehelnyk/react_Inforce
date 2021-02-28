@@ -1,26 +1,37 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './ProductList.scss';
 import ProductType from '../../types/types';
 
+import { sortProducts } from '../../store/sortingReducer';
+import { getStorageData, setStorageData } from '../../helpers/localStorage';
+
 import { MemoizedProduct } from '../Product/Product';
 
-export const ProductList:React.FC = () => {
-  const [ products, setProducts ] = useState<Array<ProductType>>([]);
+// export const ProductList:React.FC = () => {
+export const ProductList = () => {
+  const dispatch = useDispatch();
+  // const productsFromStore = useSelector(state => state.sortingReducer.products);
+
+  // const [ products, setProducts ] = useState<Array<ProductType>>([]);
+  // const [ products, setProducts ] = useState(getStorageData('products'));
+  const [ products, setProducts ] = useState([]);
+
 
   const [ name, setName ] = useState('');
   const [ priority, setPriority ] = useState('1');
   const [ presence, setPresence ] = useState(false);
 
   useEffect(() => {
-    const products = localStorage.getItem('products') || '[]';
-    setProducts(JSON.parse(products));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
+    setStorageData('products', products);
   }, [products]);
 
-  const addProduct = (event: React.FormEvent<HTMLFormElement>): void => {
+  // useEffect(() => {
+  //   dispatch(sortProducts(products));
+  // }, [products]);
+
+  // const addProduct = (event: React.FormEvent<HTMLFormElement>): void => {
+  const addProduct = (event) => {
     event.preventDefault();
 
     setProducts([
@@ -37,9 +48,12 @@ export const ProductList:React.FC = () => {
     setName('');
     setPriority('1');
     setPresence(false);
+
+    setStorageData('products', products);
   }
 
-  const handlePresence = (id: Date): void => {
+  // const handlePresence = (id: Date): void => {
+  const handlePresence = (id) => {
     setProducts(products.map(product => {
       if (product.id === id) {
         product.presence = !product.presence;
@@ -49,7 +63,8 @@ export const ProductList:React.FC = () => {
     }));
   }
 
-  const removeProduct = (id: Date): void => {
+  // const removeProduct = (id: Date): void => {
+  const removeProduct = (id) => {
     setProducts(products.filter(product => {
       return product.id !== id;
     }));

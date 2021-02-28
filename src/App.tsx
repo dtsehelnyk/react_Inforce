@@ -1,12 +1,14 @@
 import './App.scss';
 import './styles/reset.scss';
 
-import { ProductList } from './components/ProductList/ProductList';
+// import { Filter } from './components/Filter/Filter.jsx';
+import { ProductList } from './components/ProductList/ProductList.jsx';
 
 const App:React.FC = () => {
 
   return (
     <div className="App">
+      {/* <Filter /> */}
       <ProductList />
     </div>
   );
