@@ -4,8 +4,8 @@ import './Product.scss';
 import ProductType from '../../types/types';
 
 interface ProductTypeWithMethods extends ProductType {
-  handlePresence: any
-  removeProduct: any
+  handlePresence: (id: Date) => void,
+  removeProduct: (id: Date) => void,
 }
 
 const Product = ({

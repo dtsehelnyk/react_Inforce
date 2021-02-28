@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProductList.scss';
+
+import { getStorageData, setStorageData } from '../../helpers/localStorage';
 import ProductType from '../../types/types';
 
 import { MemoizedProduct } from '../Product/Product';
@@ -12,12 +14,11 @@ export const ProductList:React.FC = () => {
   const [ presence, setPresence ] = useState(false);
 
   useEffect(() => {
-    const products = localStorage.getItem('products') || '[]';
-    setProducts(JSON.parse(products));
+    setProducts(getStorageData('products'));
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
+    setStorageData('products', products)
   }, [products]);
 
   const addProduct = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -43,6 +44,7 @@ export const ProductList:React.FC = () => {
     setProducts(products.map(product => {
       if (product.id === id) {
         product.presence = !product.presence;
+        product.date = new Date().toLocaleTimeString();
       }
 
       return product;
